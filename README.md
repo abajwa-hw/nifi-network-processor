@@ -155,14 +155,14 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
   - pom.xml: add commons-io dependency (for utils) [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/pom.xml#L47-L51)
   - In org.apache.nifi.processor.Processor, add the class name [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/resources/META-INF/services/org.apache.nifi.processor.Processor#L15)
   - In [GetTcpDumpAttributes.java](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java):
-    - Define the `tags` and `description` which will be displayed on the 'Add processor' screen of Nifi UI using `@Tags` and `@CapabilityDescription` [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L43-L45)
+    - Define the `tags` and `description` which will be displayed on the 'Add processor' screen of Nifi UI using `@Tags` and `@CapabilityDescription` [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L43-L45) e.g.
     ```
 	//Define the processor tags and description which will be displayed on Nifi UI
 	@Tags({"fetch","tcpdump","tcp", "network"})
 	@CapabilityDescription("Reads output of tcpdump and outputs the results as a Flowfile")    
     ```
     ![Image](../master/screenshots/nifi-tcp-processor.png?raw=true)
-    - Define `properties` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L51-L57)
+    - Define `properties` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L51-L57) e.g.
     ```
     //Define properties for the processor
     public static final PropertyDescriptor MY_PROPERTY = new PropertyDescriptor
@@ -173,7 +173,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
             .build();    
     ```    
     ![Image](../master/screenshots/nifi-tcp-processor-properties.png?raw=true)    
-    - Define `relationships` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L59-L63)
+    - Define `relationships` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L59-L63) e.g.
     ```
     //Define relationships for the processor
     public static final Relationship SUCCESS_RELATIONSHIP = new Relationship.Builder()
