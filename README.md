@@ -195,7 +195,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     - Run > Run Configurations
     ![Image](../master/screenshots/eclipse-run-configs.png?raw=true)  
   
-  - Then click Maven Build. It will prompt you for the configuration:
+  - Then double click 'Maven Build'. It will prompt you for the configuration. Enter the below:
     - Name: nifi-network
     - Base dir: /root/nifi-network-processor
     - Under 'Goals': clean package
