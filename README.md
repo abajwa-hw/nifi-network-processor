@@ -196,9 +196,9 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     ![Image](../master/screenshots/eclipse-run-configs.png?raw=true)  
   
   - Then double click 'Maven Build'. It will prompt you for the configuration. Enter the below:
-    - Name: nifi-network
-    - Base dir: /root/nifi-network-processor
-    - Under 'Goals': clean package
+    - Name: `nifi-network`
+    - Base dir: `/root/nifi-network-processor`
+    - Under 'Goals': `clean package`
     - Under Maven Runtime: (scroll down to see this option). We will be adding the location of the existing mvn install using the steps below as its runs faster than using the embedded one:
       - Configure > Add > click ‘Directory’ and navigate to mvn install: `/usr/share/apache-maven` > OK > Finish > Select `apache-maven` > Apply > OK
       ![Image](../master/screenshots/configure-maven-install.png?raw=true)
