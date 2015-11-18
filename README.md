@@ -199,7 +199,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     - Name: nifi-network
     - Base dir: /root/nifi-network-processor
     - Under 'Goals': clean package
-    - Under Maven Runtime: (scroll down to see this option) we will be adding the location of the existing mvn install using the steps below as its runs faster than using the embedded one:
+    - Under Maven Runtime: (scroll down to see this option). We will be adding the location of the existing mvn install using the steps below as its runs faster than using the embedded one:
     ![Image](../master/screenshots/configure-maven-install.png?raw=true)
     - Configure > Add > click ‘Directory’ and navigate to mvn install: /usr/share/apache-maven > OK > Finish > Select 'apache-maven' > Apply > OK
     - So now your maven run configuration should look as below
