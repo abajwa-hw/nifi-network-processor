@@ -191,10 +191,10 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
   - In [GetTcpDumpAttributesTest.java](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/test/java/com/hortonworks/processors/network/GetTcpDumpAttributesTest.java), you can define a Junit to test that the processor is working correctly
     
 - To run maven compile: 
-  - In Eclipse, under 'Package Explorer' select 'network-analysis' and then click:
-    - Run
-    - Run Configurations
-    - Maven Build
+  - In Eclipse, under 'Package Explorer' select 'network-analysis' and then click: Run > Run Configurations
+    ![Image](../master/screenshots/eclipse-run-configs.png?raw=true)  
+  
+  - Then click Maven Build
   
   - The first time you do this, it will ask you for the configuration:
     - Name: nifi-network
