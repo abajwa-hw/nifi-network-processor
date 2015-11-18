@@ -64,7 +64,7 @@ tcpdump -n -nn
 
 
 
-- Download to local laptop (not sandbox) xml template for flow that uses ExecuteProcess/EL to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_EL_Exmple.xml
+- Download to local laptop (not sandbox) xml template for flow that uses ExecuteProcess/EL to parse tcpdump flow from https://raw.githubusercontent.com/abajwa-hw/nifi-network-processor/master/templates/TCPDump_EL_Example.xml
   
 - Launch Nifi by opening http://sandbox.hortonworks.com:9090/nifi
 
@@ -151,7 +151,7 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
 - Restart Nifi from Ambari
 
 
-- Download to local laptop (not sandbox) xml template for flow that uses Custom processor to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Exmple.xml
+- Download to local laptop (not sandbox) xml template for flow that uses Custom processor to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Example.xml
   
 - Open Nifi UI and delete the existing flow by:
   - Control-A to select all the components and right click on any processor and select Delete
