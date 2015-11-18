@@ -1,16 +1,18 @@
-## Getting started with ELs and custom Nifi processors on HDP
+## Getting started with ELs and building a custom Nifi processor on HDP
 
 This tutorial is part of a webinar on Hortonworks DataFlow.
 - http://hortonworks.com/partners/learn/
 
+
 #### Background
 
-Tcpdump is a common packet analyzer that runs under the command line. It allows the user to display TCP/IP and other packets being transmitted or received over a network to which the computer is attached. 
+- For a primer on HDF, you can refer to the materials [here](http://hortonworks.com/products/dataflow/) to get a basic background
+- A basic tutorial on using Nifi on HDP sandbox is also available [here](http://community.hortonworks.com/articles/1282/sample-hdfnifi-flow-to-push-tweets-into-solrbanana.html)
 
 #### Goals 
-- Build Nifi flow to run tcpdump. Use Expression Language to filter out source/target IPs 
-- Build and use custom tcpdump processor to filter source/target IPs
 
+- Build Nifi flow to analyze Nifi's network traffic using tcpdump. Use Expression Language to extract out source/target IPs/ports
+- Build and use custom tcpdump processor to filter Nifi's source/target IPs/ports
 
 
 #### Pre-Requisites: Install Nifi on sandbox
@@ -37,11 +39,13 @@ service ambari-server restart
 - To install Nifi, start the 'Install Wizard': Open Ambari (http://sandbox.hortonworks.com:8080) then:
   - On bottom left -> Actions -> Add service -> check NiFi server -> Next -> Next -> Change any config you like (e.g. install dir, port, setup_prebuilt or values in nifi.properties) -> Next -> Deploy. This will kick off the install which will run for 5-10min.
 
+- Once installed, launch Nifi by opening http://sandbox.hortonworks.com:9090/nifi
+
 #### Steps
 
 #####  Explore tcpdump
 
-- Tcpdump is a network traffic analyzer. Full details can be found [here](http://www.tcpdump.org/tcpdump_man.html)
+- Tcpdump is a common packet analyzer that runs under the command line. It allows the user to display TCP/IP and other packets being transmitted or received over a network to which the computer is attached.  Full details can be found [here](http://www.tcpdump.org/tcpdump_man.html)
 
 - To install tcdump on sandbox:
 ```
@@ -53,22 +57,22 @@ yum install -y tcpdump
 tcpdump -n -nn
 ```
 
-- On sandbox, this will output something like
+- On sandbox, this will output something like below for each network connection being made, showing:
+  - which socket (i.e. IP/port) was the source (to the left of >) and 
+  - which was the target (to the right of >)
 ```
-23:32:50.115230 IP 192.168.191.1.57564 > 192.168.191.144.22: Flags [.], ack 513312, win 8179, options [nop,nop,TS val 1145841629 ecr 1341432], length 0
-23:32:50.116109 IP 192.168.191.144.22 > 192.168.191.1.57564: Flags [P.], seq 513312:513824, ack 433, win 385, options [nop,nop,TS val 1341433 ecr 1145841629], length 512
+08:16:15.878652 IP 192.168.191.1.49270 > 192.168.191.144.9090: Flags [.], ack 2255, win 8174, options [nop,nop,TS val 1176961367 ecr 32747195], length 0
 ```
 
+- In the example above, the source machine was 192.168.191.1 (port 49270) and the target machine was 192.168.191.144 (port 9090)
+
+- Note that since Nifi is running on port 9090, by monitoring traffic to port 9090 we will be able to capture connections made by Nifi
 
 #####  Build tcpdump flow using ExecuteProcess and EL
 
-
-
 - Download to local laptop (not sandbox) xml template for flow that uses ExecuteProcess/EL to parse tcpdump flow from https://raw.githubusercontent.com/abajwa-hw/nifi-network-processor/master/templates/TCPDump_EL_Example.xml
   
-- Launch Nifi by opening http://sandbox.hortonworks.com:9090/nifi
-
-- Import flow template info Nifi:
+- On the Nifi webui, import flow template:
   - Import template by clicking on Templates (third icon from right) which will launch the 'Nifi Flow templates' popup 
   - Browse and navigate to where ever you downloaded TCPDump_EL_Exmple.xml on your local machine
   - Click Import. Now the template should appear in 'Nifi Flow templates' popup window
@@ -79,7 +83,7 @@ tcpdump -n -nn
   - Select 'TCPDump EL Example' and click Add
     ![Image](../master/screenshots/nifi-import-el-processor.png?raw=true)
 
-- Run the flow
+- Run the flow.  After a few seconds you should see all the counters increase
 
  ![Image](../master/screenshots/nifi-tcpdump-el-flow.png?raw=true)
  
@@ -139,7 +143,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
   - File > Import > Maven > Existing Maven projects
   - Browse > root > nifi-network-processor > OK > Finish
   
-- code walk through
+- Here is a summary of what changes were made to the archetype
   - pom.xml: add commons-io dependency for utils [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/pom.xml#L47-L51)
   ```
         <dependency>
@@ -149,8 +153,14 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
         </dependency>  
   ```
   - In org.apache.nifi.processor.Processor, add the class name [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/resources/META-INF/services/org.apache.nifi.processor.Processor#L15)
-  - In GetTcpDumpAttributes.java:
-  
+  - In [GetTcpDumpAttributes.java](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java):
+    - Define the `tags` and `description` which will be displayed on the Nifi UI using `@Tags` and `@CapabilityDescription` [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L43-L45)
+    - Define `properties` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L51-L57)
+    - Define `relationships` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L59-L63)
+    - Any initializations to be done when Nifi starts would be done in `init()` [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L73)
+    - `onTrigger()` is the main method to override to define the logic when a flow file is passed to our processor. This is where we parse a line of tcpdump output and store the src and destination sockets (here)[https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L98-L128]
+  - In [GetTcpDumpAttributesTest.java](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/test/java/com/hortonworks/processors/network/GetTcpDumpAttributesTest.java), you can define a Junit to test that the processor is working correctly
+    
 - To run maven compile: 
   - In Eclipse, under 'Package Explorer' select 'network-analysis' and then click:
     - Run
@@ -168,13 +178,22 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     ![Image](../master/screenshots/eclipse-mvn-runconfig.png?raw=true)
     - Click Apply > Run to start compile
         
-
-
-- Confirm the nar got built
+- To run Junit to confirm processor is working correctly
+  - In Eclipse, under 'Package Explorer' select 'nifi-network-processors' and then click: Run > Run as > JUnit test
+    ![Image](../master/screenshots/eclipse-junit-correct.png?raw=true)
+  - After a few seconds the test should pass and you should see below (in green):  
+    ![Image](../master/screenshots/eclipse-junit-success.png?raw=true)
+  - To see what happens if test does not pass, try changing the value of the dest.socket as highlighted below, save your changes and re-run JUnit  
+    ![Image](../master/screenshots/eclipse-junit-incorrect.png?raw=true)
+  - This time you will see the test fail (in red below)  
+    ![Image](../master/screenshots/eclipse-junit-failure.png?raw=true)
+  - Press Control-Z to undo your changes  
+                
+- Confirm the nar file (Nifi library file for your processor) file got built
 ```
 ls -la ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNAPSHOT.nar
 ```
-- Build nar and deploy: copy the compiled nar file into Nifi lib dir and restart Nifi
+- Deploy the nar into Nifi: copy the compiled nar file into Nifi lib dir and correct permissions
 ```
 cp ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNAPSHOT.nar /opt/nifi-1.0.0.0-7/lib/
 chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
@@ -199,10 +218,13 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
 
  ![Image](../master/screenshots/nifi-tcpdump-customprocessor-flow.png?raw=true)
 
+- Run the flow. After a few seconds you should see all the counters increase
+  - TODO: note what each component is doing
 
-- Run the flow
+- You have successfully created flows to analyze network traffic using both expression languages and a custom processor
 
-##### More resources
+
+##### Further reading
 
 - [https://nifi.apache.org/developer-guide.html](https://nifi.apache.org/developer-guide.html)
 - [https://nifi.apache.org/docs/nifi-docs/html/expression-language-guide.html](https://nifi.apache.org/docs/nifi-docs/html/expression-language-guide.html)
