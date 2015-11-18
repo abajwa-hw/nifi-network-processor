@@ -156,10 +156,31 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
   - In org.apache.nifi.processor.Processor, add the class name [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/resources/META-INF/services/org.apache.nifi.processor.Processor#L15)
   - In [GetTcpDumpAttributes.java](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java):
     - Define the `tags` and `description` which will be displayed on the 'Add processor' screen of Nifi UI using `@Tags` and `@CapabilityDescription` [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L43-L45)
+    ```
+	//Define the processor tags and description which will be displayed on Nifi UI
+	@Tags({"fetch","tcpdump","tcp", "network"})
+	@CapabilityDescription("Reads output of tcpdump and outputs the results as a Flowfile")    
+    ```
     ![Image](../master/screenshots/nifi-tcp-processor.png?raw=true)
     - Define `properties` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L51-L57)
+    ```
+    //Define properties for the processor
+    public static final PropertyDescriptor MY_PROPERTY = new PropertyDescriptor
+            .Builder().name("My Property")
+            .description("Example Property")
+            .required(true)
+            .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+            .build();    
+    ```    
     ![Image](../master/screenshots/nifi-tcp-processor-properties.png?raw=true)    
     - Define `relationships` for the processor [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L59-L63)
+    ```
+    //Define relationships for the processor
+    public static final Relationship SUCCESS_RELATIONSHIP = new Relationship.Builder()
+            .name("success")
+            .description("Success relationship")
+            .build();    
+    ```
     ![Image](../master/screenshots/nifi-tcp-processor-relationships.png?raw=true)    
     - Any initializations to be done when Nifi starts would be done in `init()` [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L73)
     - `onTrigger()` is the main method to override to define the logic when a flow file is passed to our processor. This is where we parse a line of tcpdump output and store the src and destination sockets [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/java/com/hortonworks/processors/network/GetTcpDumpAttributes.java#L98-L128)
