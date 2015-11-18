@@ -229,7 +229,7 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
 ```
 - Restart Nifi from Ambari
 
-- Download to local laptop (not sandbox) the xml template for flow that uses Custom processor to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Example.xml
+- Download to local laptop (not sandbox), the xml template for the flow that uses *Custom processor* to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Example.xml
   
 - Open Nifi UI and delete the existing flow by:
   - Control-A to select all the components and right click on any processor and select Delete
