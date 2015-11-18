@@ -99,13 +99,56 @@ service ambari restart
   - VNC Server -> Add service -> Next -> Next -> Enter password (e.g. hadoop) -> Next -> Proceed Anyway -> Deploy
   - Make sure the password is at least 6 characters or install will fail
 - Connect to VNC from local laptop using a VNC viewer software (e.g. Tight VNC viewer or Chicken of the VNC or just your browser). Detailed steps [here](https://github.com/hortonworks-gallery/ambari-vnc-service)
+- (Optional): To install maven manually instead:
+```
+curl -o /etc/yum.repos.d/epel-apache-maven.repo https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo
+yum -y install apache-maven-3.2*
+```
 
 - In general, when starting a new project you would use the mvn archetype to create a custom processor. Details here: https://cwiki.apache.org/confluence/display/NIFI/Maven+Projects+for+Extensions
 
-- In this case we will download and import sample code to eclipse
-
+- In this case we will download sample code
+```
+cd
+sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
+```
+- Import to Eclipse 
+  - File > Import > Maven > Existing Maven projects
+  - Browse > root > nifi-network-processor > OK > Finish
+  
 - code walk through
-- Build nar and deploy: copy into Nifi lib dir and restart Nifi
+  
+- To run maven compile: 
+  - In Eclipse, under 'Package Explorer' select 'network-analysis' and then click:
+    - Run
+    - Run Configurations
+    - Maven Build
+  
+  - The first time you do this, it will ask you for the configuration:
+    - Name: nifi-network
+    - Base dir: /root/nifi-network-processor
+    - Under 'Goals': clean package
+    - Under Maven Runtime: (scroll down to see this option) add your existing mvn install on the sandbox (its faster than using the embedded one)
+    ![Image](../master/screenshots/configure-maven-install.png?raw=true)
+    - Configure > Add > click ‘Directory’ and navigate to mvn install: /usr/share/apache-maven > OK > Finish > Select 'apache-maven' > Apply > OK
+    - So now your maven run configuration should look as below
+    ![Image](../master/screenshots/maven-run-configuration.png?raw=true)
+    - Click Apply > Run to start compile
+        
+
+
+- Confirm the nar got built
+```
+ls -la ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNAPSHOT.nar
+```
+- Build nar and deploy: copy the compiled nar file into Nifi lib dir and restart Nifi
+```
+cp ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNAPSHOT.nar /opt/nifi-1.0.0.0-7/lib/
+chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
+
+```
+- Restart Nifi from Ambari
+
 - import template for flow that uses custom processor to parse tcpdump
 - run the flow
 
