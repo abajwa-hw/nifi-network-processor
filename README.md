@@ -200,14 +200,14 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     - Base dir: /root/nifi-network-processor
     - Under 'Goals': clean package
     - Under Maven Runtime: (scroll down to see this option). We will be adding the location of the existing mvn install using the steps below as its runs faster than using the embedded one:
-      - Configure > Add > click ‘Directory’ and navigate to mvn install: /usr/share/apache-maven > OK > Finish > Select 'apache-maven' > Apply > OK
+      - Configure > Add > click ‘Directory’ and navigate to mvn install: `/usr/share/apache-maven` > OK > Finish > Select `apache-maven` > Apply > OK
       ![Image](../master/screenshots/configure-maven-install.png?raw=true)
     - So your maven run configuration should look as below
     ![Image](../master/screenshots/eclipse-mvn-runconfig.png?raw=true)
     - Click Apply > Run to start compile
         
 - To run Junit to confirm processor is working correctly
-  - In Eclipse, under 'Package Explorer' select 'nifi-network-processors' and then click: Run > Run as > JUnit test
+  - In Eclipse, under `Package Explorer` select `nifi-network-processors` and then click: Run > Run as > JUnit test
     ![Image](../master/screenshots/eclipse-junit-correct.png?raw=true)
   - After a few seconds the test should pass and you should see below (in green):  
     ![Image](../master/screenshots/eclipse-junit-success.png?raw=true)
