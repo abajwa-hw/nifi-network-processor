@@ -96,7 +96,7 @@ tcpdump -n -nn
 
 #####  Build custom processor for tcpdump
 
-- setup sandbox for development by using [VNC Ambari service](https://github.com/hortonworks-gallery/ambari-vnc-service) to install VNC/eclipse/maven
+- Setup your sandbox for development by using [VNC Ambari service](https://github.com/hortonworks-gallery/ambari-vnc-service) to install VNC/eclipse/maven
   - Download Ambari service for VNC (details below)
 ```  
 VERSION=`hdp-select status hadoop-client | sed 's/hadoop-client - \([0-9]\.[0-9]\).*/\1/'`
