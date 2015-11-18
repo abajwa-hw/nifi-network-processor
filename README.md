@@ -78,8 +78,12 @@ tcpdump -n -nn
   - Drag/drop the Template icon (7th icon form left) onto the canvas so that a picklist popup appears 
   - Select 'TCPDump EL Example' and click Add
 
-- Run the flow and note what each component is doing
-  - TODO: add details
+
+- Run the flow
+
+ ![Image](../master/screenshots/nifi-tcpdump-el-flow.png?raw=true)
+ 
+  - TODO: note what each component is doing
 
 - Stop the flow using the stop button
 
@@ -99,6 +103,8 @@ service ambari restart
 - Deploy the service by selecting:
   - VNC Server -> Add service -> Next -> Next -> Enter password (e.g. hadoop) -> Next -> Proceed Anyway -> Deploy
   - Make sure the password is at least 6 characters or install will fail
+ ![Image](../master/screenshots/ambari-vnc-config.png?raw=true)  
+  
 - Connect to VNC from local laptop using a VNC viewer software (e.g. Tight VNC viewer or Chicken of the VNC or just your browser). Detailed steps [here](https://github.com/hortonworks-gallery/ambari-vnc-service)
 - (Optional): To install maven manually instead:
 ```
@@ -133,7 +139,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     ![Image](../master/screenshots/configure-maven-install.png?raw=true)
     - Configure > Add > click ‘Directory’ and navigate to mvn install: /usr/share/apache-maven > OK > Finish > Select 'apache-maven' > Apply > OK
     - So now your maven run configuration should look as below
-    ![Image](../master/screenshots/maven-run-configuration.png?raw=true)
+    ![Image](../master/screenshots/eclipse-mvn-runconfig.png?raw=true)
     - Click Apply > Run to start compile
         
 
@@ -165,6 +171,8 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
 - Instantiate the 'TCPDump_Custom_Processor_Exmple' dashboard template:
   - Drag/drop the Template icon (7th icon form left) onto the canvas so that a picklist popup appears 
   - Select 'TCPDump_Custom_Processor_Exmple' and click Add
+
+ ![Image](../master/screenshots/nifi-tcpdump-customprocessor-flow.png?raw=true)
 
 
 - Run the flow
