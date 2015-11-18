@@ -218,7 +218,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     ![Image](../master/screenshots/eclipse-junit-failure.png?raw=true)
   - Press Control-Z to undo your changes  
                 
-- Confirm the nar file (Nifi library file for your processor) file got built
+- Confirm the nar file (Nifi library file for your processor) file got built by running the maven build
 ```
 ls -la ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNAPSHOT.nar
 ```
