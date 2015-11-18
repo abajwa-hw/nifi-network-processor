@@ -40,13 +40,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
 
-@Tags({"example"})
-@CapabilityDescription("Provide a description")
+//Define the processor tags and description which will be displayed on Nifi UI
+@Tags({"fetch","tcpdump","tcp", "network"})
+@CapabilityDescription("Reads output of tcpdump and outputs the results as a Flowfile")
 @SeeAlso({})
 @ReadsAttributes({@ReadsAttribute(attribute="", description="")})
 @WritesAttributes({@WritesAttribute(attribute="", description="")})
 public class GetTcpDumpAttributes extends AbstractProcessor {
 
+    //Define properties for the processor
     public static final PropertyDescriptor MY_PROPERTY = new PropertyDescriptor
             .Builder().name("My Property")
             .description("Example Property")
@@ -54,6 +56,7 @@ public class GetTcpDumpAttributes extends AbstractProcessor {
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
             .build();
 
+    //Define relationships for the processor
     public static final Relationship SUCCESS_RELATIONSHIP = new Relationship.Builder()
             .name("success")
             .description("Success relationship")
@@ -63,6 +66,9 @@ public class GetTcpDumpAttributes extends AbstractProcessor {
 
     private Set<Relationship> relationships;
 
+
+    //Called at the start of Nifi
+    //Note that unmodifiable List and Set used since Nifi is multi-threaded
     @Override
     protected void init(final ProcessorInitializationContext context) {
         final List<PropertyDescriptor> descriptors = new ArrayList<PropertyDescriptor>();
@@ -89,6 +95,7 @@ public class GetTcpDumpAttributes extends AbstractProcessor {
 
     }
 
+    //Called when flow file is passes to the processor
     @Override
     public void onTrigger(final ProcessContext context, final ProcessSession session) throws ProcessException {
 		FlowFile flowFile = session.get();
@@ -98,21 +105,13 @@ public class GetTcpDumpAttributes extends AbstractProcessor {
 
 		flowFile.getAttributes();
 		
-		/*session.write(flowFile, new StreamCallback() {
-			
-			@Override
-			public void process(InputStream in, OutputStream out) throws IOException {
-				// TODO Auto-generated method stub
-				
-			}
-		}); */
 		
 		final Map<String, String> attributes = new HashMap<>();
 		session.read(flowFile, new InputStreamCallback() {
 			
 			@Override
 			public void process(InputStream in) throws IOException {
-				// TODO Auto-generated method stub
+				// Parse the data as string and extract scr/dest host/ports
 				String data = IOUtils.toString(in);
 				String[] components = StringUtils.split(data);
 				attributes.put("src.socket",components[2]);
@@ -120,12 +119,11 @@ public class GetTcpDumpAttributes extends AbstractProcessor {
 				
 			}
 		});
-		//context.getProperty(MY_PROPERTY);
 		
+		//write out attributes to Flow file
 		flowFile = session.putAllAttributes(flowFile, attributes);
 		
 		session.transfer(flowFile, SUCCESS_RELATIONSHIP);
-        // TODO implement
 
     }
 

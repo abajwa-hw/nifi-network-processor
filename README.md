@@ -77,7 +77,7 @@ tcpdump -n -nn
 - Instantiate the 'TCPDump EL Example' dashboard template:
   - Drag/drop the Template icon (7th icon form left) onto the canvas so that a picklist popup appears 
   - Select 'TCPDump EL Example' and click Add
-
+    ![Image](../master/screenshots/nifi-import-el-processor.png?raw=true)
 
 - Run the flow
 
@@ -85,6 +85,7 @@ tcpdump -n -nn
  
   - TODO: note what each component is doing
 
+- For more details on Nifi Expression Language see [Nifi docs](https://nifi.apache.org/docs/nifi-docs/html/expression-language-guide.html)
 - Stop the flow using the stop button
 
 #####  Build custom processor for tcpdump
@@ -113,17 +114,42 @@ yum -y install apache-maven-3.2*
 ```
 
 - In general, when starting a new project you would use the mvn archetype to create a custom processor. Details here: https://cwiki.apache.org/confluence/display/NIFI/Maven+Projects+for+Extensions
+  - Command to run the wizard:
+  ```
+  cd /tmp
+  mvn archetype:generate -DarchetypeGroupId=org.apache.nifi -DarchetypeArtifactId=nifi-processor-bundle-archetype -DarchetypeVersion=0.2.1 -DnifiVersion=0.2.1
+  ```
+  - Sample inputs to generate a maven project archetype skeleton.
+  ```
+Define value for property 'groupId': : com.hortonworks
+Define value for property 'artifactId': : nifi-network-processors
+Define value for property 'version':  1.0-SNAPSHOT: :
+Define value for property 'artifactBaseName': : network
+Define value for property 'package':  com.hortonworks.processors.network: :
+  ```
+  - This will create an archetype maven project for a custom processor with the package name, artifactId... specified above.
 
-- In this case we will download sample code
+- In this case we will download a previously built sample and walk through what changes you would need to make to the archetype to create a basic custom processor
 ```
 cd
 sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
 ```
+- Open Eclipse using the shortcut on the Desktop
 - Import to Eclipse 
   - File > Import > Maven > Existing Maven projects
   - Browse > root > nifi-network-processor > OK > Finish
   
 - code walk through
+  - pom.xml: add commons-io dependency for utils [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/pom.xml#L47-L51)
+  ```
+        <dependency>
+        	<groupId>commons-io</groupId>
+        	<artifactId>commons-io</artifactId>
+        	<version>2.4</version>
+        </dependency>  
+  ```
+  - In org.apache.nifi.processor.Processor, add the class name [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/src/main/resources/META-INF/services/org.apache.nifi.processor.Processor#L15)
+  - In GetTcpDumpAttributes.java:
   
 - To run maven compile: 
   - In Eclipse, under 'Package Explorer' select 'network-analysis' and then click:
@@ -152,12 +178,10 @@ ls -la ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNA
 ```
 cp ~/nifi-network-processor/nifi-network-nar/target/nifi-network-nar-1.0-SNAPSHOT.nar /opt/nifi-1.0.0.0-7/lib/
 chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
-
 ```
 - Restart Nifi from Ambari
 
-
-- Download to local laptop (not sandbox) xml template for flow that uses Custom processor to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Example.xml
+- Download to local laptop (not sandbox) the xml template for flow that uses Custom processor to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Example.xml
   
 - Open Nifi UI and delete the existing flow by:
   - Control-A to select all the components and right click on any processor and select Delete
@@ -171,9 +195,16 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
 - Instantiate the 'TCPDump_Custom_Processor_Exmple' dashboard template:
   - Drag/drop the Template icon (7th icon form left) onto the canvas so that a picklist popup appears 
   - Select 'TCPDump_Custom_Processor_Exmple' and click Add
+    ![Image](../master/screenshots/nifi-import-custom-processor.png?raw=true)
 
  ![Image](../master/screenshots/nifi-tcpdump-customprocessor-flow.png?raw=true)
 
 
 - Run the flow
 
+##### More resources
+
+- [https://nifi.apache.org/developer-guide.html](https://nifi.apache.org/developer-guide.html)
+- [https://nifi.apache.org/docs/nifi-docs/html/expression-language-guide.html](https://nifi.apache.org/docs/nifi-docs/html/expression-language-guide.html)
+- [http://www.nifi.rocks/developing-a-custom-apache-nifi-processor-json/](http://www.nifi.rocks/developing-a-custom-apache-nifi-processor-json/)  
+- [http://bryanbende.com/development/2015/02/04/custom-processors-for-apache-nifi/](http://bryanbende.com/development/2015/02/04/custom-processors-for-apache-nifi/)
