@@ -68,7 +68,7 @@ tcpdump -n -nn
   - the source machine was 192.168.191.1 (port 49270) and 
   - the target machine was 192.168.191.144 (port 9090)
 
-- Note that since Nifi is running on port 9090, by monitoring traffic to port 9090 we will be able to capture connections made by Nifi
+- Note that since Nifi is running on port 9090, by monitoring traffic to port 9090, we will be able to capture connections made by Nifi
 
 #####  Build tcpdump flow using ExecuteProcess and EL
 
