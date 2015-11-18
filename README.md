@@ -64,23 +64,24 @@ tcpdump -n -nn
 
 
 
-- Download to local laptop (not sandbox) xml template for flow that uses ExecuteProcess/EL to parse tcpdump flow from https://www.dropbox.com/s/w13t1e9mruy6atj/TCPDump_example.xml?dl=0
-  - TODO: add updated link
+- Download to local laptop (not sandbox) xml template for flow that uses ExecuteProcess/EL to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_EL_Exmple.xml
   
 - Launch Nifi by opening http://sandbox.hortonworks.com:9090/nifi
 
 - Import flow template info Nifi:
   - Import template by clicking on Templates (third icon from right) which will launch the 'Nifi Flow templates' popup 
-  - Browse and navigate to where ever you downloaded Twitter_Dashboard.xml on your local machine
+  - Browse and navigate to where ever you downloaded TCPDump_EL_Exmple.xml on your local machine
   - Click Import. Now the template should appear in 'Nifi Flow templates' popup window
   - Close the popup window
 
-- Instantiate the Twitter dashboard template:
+- Instantiate the 'TCPDump EL Example' dashboard template:
   - Drag/drop the Template icon (7th icon form left) onto the canvas so that a picklist popup appears 
-  - Select 'TCP dump' and click Add
+  - Select 'TCPDump EL Example' and click Add
 
 - Run the flow and note what each component is doing
   - TODO: add details
+
+- Stop the flow using the stop button
 
 #####  Build custom processor for tcpdump
 
@@ -149,6 +150,22 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
 ```
 - Restart Nifi from Ambari
 
-- import template for flow that uses custom processor to parse tcpdump
-- run the flow
+
+- Download to local laptop (not sandbox) xml template for flow that uses Custom processor to parse tcpdump flow from https://github.com/abajwa-hw/nifi-network-processor/raw/master/templates/TCPDump_Custom_Processor_Exmple.xml
+  
+- Open Nifi UI and delete the existing flow by:
+  - Control-A to select all the components and right click on any processor and select Delete
+
+- Import the custom processor flow template info Nifi:
+  - Import template by clicking on Templates (third icon from right) which will launch the 'Nifi Flow templates' popup 
+  - Browse and navigate to where ever you downloaded TCPDump_Custom_Processor_Exmple.xml on your local machine
+  - Click Import. Now the template should appear in 'Nifi Flow templates' popup window
+  - Close the popup window
+
+- Instantiate the 'TCPDump_Custom_Processor_Exmple' dashboard template:
+  - Drag/drop the Template icon (7th icon form left) onto the canvas so that a picklist popup appears 
+  - Select 'TCPDump_Custom_Processor_Exmple' and click Add
+
+
+- Run the flow
 
