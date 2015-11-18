@@ -113,6 +113,8 @@ service ambari restart
  ![Image](../master/screenshots/ambari-vnc-config.png?raw=true)  
   
 - Connect to VNC from local laptop using a VNC viewer software (e.g. Tight VNC viewer or Chicken of the VNC or just your browser). Detailed steps [here](https://github.com/hortonworks-gallery/ambari-vnc-service)
+ ![Image](../master/screenshots/vnc-connect.png?raw=true)
+ 
 - (Optional): To install maven manually instead:
 ```
 curl -o /etc/yum.repos.d/epel-apache-maven.repo https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo
@@ -133,7 +135,7 @@ Define value for property 'version':  1.0-SNAPSHOT: :
 Define value for property 'artifactBaseName': : network
 Define value for property 'package':  com.hortonworks.processors.network: :
   ```
-  - This will create an archetype maven project for a custom processor with the package name, artifactId... specified above.
+  - This will create an archetype maven project for a custom processor with the package name, artifactId, etc specified above.
 
 - In this case we will download a previously built sample and walk through what changes you would need to make to the archetype to create a basic custom processor
 ```
@@ -141,9 +143,13 @@ cd
 sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
 ```
 - Open Eclipse using the shortcut on the Desktop
+ ![Image](../master/screenshots/vnc-desktop.png?raw=true)
+ 
 - Import to Eclipse 
   - File > Import > Maven > Existing Maven projects
+   ![Image](../master/screenshots/eclipse-import.png?raw=true)
   - Browse > root > nifi-network-processor > OK > Finish
+   ![Image](../master/screenshots/eclipse-import-maven.png?raw=true)
   
 - Here is a summary of what changes were made to the archetype
   - pom.xml: add commons-io dependency for utils [here](https://github.com/abajwa-hw/nifi-network-processor/blob/master/nifi-network-processors/pom.xml#L47-L51)
