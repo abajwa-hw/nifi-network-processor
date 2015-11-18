@@ -207,7 +207,8 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     - Click Apply > Run to start compile
         
 - To run Junit to confirm processor is working correctly
-  - In Eclipse, under `Package Explorer` select `nifi-network-processors` and then click: Run > Run as > JUnit test
+  - In Eclipse, under `Package Explorer` select `nifi-network-processors` and then click: 
+    - Run > Run as > JUnit test
     ![Image](../master/screenshots/eclipse-junit-correct.png?raw=true)
   - After a few seconds the test should pass and you should see below (in green):  
     ![Image](../master/screenshots/eclipse-junit-success.png?raw=true)
