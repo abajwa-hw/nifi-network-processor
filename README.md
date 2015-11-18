@@ -212,7 +212,7 @@ sudo git clone https://github.com/abajwa-hw/nifi-network-processor.git
     ![Image](../master/screenshots/eclipse-junit-correct.png?raw=true)
   - After a few seconds the test should pass and you should see below (in green):  
     ![Image](../master/screenshots/eclipse-junit-success.png?raw=true)
-  - To see what happens if test does not pass, try changing the value of the dest.socket as highlighted below, save your changes and re-run JUnit  
+  - To see what happens if test does not pass, try changing the value of the dest.socket by prefixing the values with random digits (as highlighted below), save your changes and re-run JUnit  
     ![Image](../master/screenshots/eclipse-junit-incorrect.png?raw=true)
   - This time you will see the test fail (in red below)  
     ![Image](../master/screenshots/eclipse-junit-failure.png?raw=true)
