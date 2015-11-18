@@ -64,7 +64,9 @@ tcpdump -n -nn
 08:16:15.878652 IP 192.168.191.1.49270 > 192.168.191.144.9090: Flags [.], ack 2255, win 8174, options [nop,nop,TS val 1176961367 ecr 32747195], length 0
 ```
 
-- In the example above, the source machine was 192.168.191.1 (port 49270) and the target machine was 192.168.191.144 (port 9090)
+- In the example above:
+  - the source machine was 192.168.191.1 (port 49270) and 
+  - the target machine was 192.168.191.144 (port 9090)
 
 - Note that since Nifi is running on port 9090, by monitoring traffic to port 9090 we will be able to capture connections made by Nifi
 
