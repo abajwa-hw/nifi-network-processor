@@ -89,8 +89,27 @@ tcpdump -n -nn
 
  ![Image](../master/screenshots/nifi-tcpdump-el-flow.png?raw=true)
  
-  - TODO: note what each component is doing
+- Overview of flow:
+  - ExecuteProcess: Runs `tcpdump -n -nn`
+  - SplitText: split output into lines
+  - ExtractText: extract the src/dest sockets using regex Expression Language
+    - src.socket will store socket before the `>`: `(\d+\.\d+\.\d+\.\d+\.\d+)\s+>`
+    - dest.socket will store socket after the `<`: `>\s+(\d+\.\d+\.\d+\.\d+\.\d+)`
+  - RouteOnAttribute: filter by destination socket where port is 9090
+    - `web.server.dest` = `${dest.socket:endsWith(".9090")}`    
+  - Logattribute:  log attribute 
 
+- Check details of what events were logged:
+  - Open Provenance window (5th icon from top right)
+  - In top right, filter `by component type`: `LogAttribute` and click on 'Show lineage' icon of first record (near top right)
+  ![Image](../master/screenshots/nifi-lineage.png?raw=true)
+  - Right click on `Route` > `View details`. 
+  ![Image](../master/screenshots/nifi-provenance-viewdetails.png?raw=true)
+  - Click the `Content` tab and click `View`
+  ![Image](../master/screenshots/nifi-provenance-content.png?raw=true)
+  - Notice that the destination socket for the event shows port 9090
+  ![Image](../master/screenshots/nifi-provenance-event.png?raw=true)
+  
 - For more details on Nifi Expression Language see [Nifi docs](https://nifi.apache.org/docs/nifi-docs/html/expression-language-guide.html)
 - Stop the flow using the stop button
 
