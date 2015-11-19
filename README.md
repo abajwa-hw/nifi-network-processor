@@ -278,8 +278,8 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
     - `web.server.dest` = `${dest.socket:endsWith(".9090")}`    
   - Logattribute:  log attribute 
 
-- Open Provenance window and repeat previous steps to check details of what events were logged.
-
+- Open Provenance window and repeat previous steps to confirm that the destination socket for the events shows port 9090
+  ![Image](../master/screenshots/nifi-provenance-event.png?raw=true)
 
 - You have successfully created flows to analyze network traffic using both expression languages and also a basic custom processor
 
