@@ -1,4 +1,4 @@
-## Getting started with ELs and building a custom Nifi processor on HDP
+## Getting started with ELs and building a custom Nifi processor on HDP sandbox
 
 This tutorial is part of a webinar on Hortonworks DataFlow.
 - http://hortonworks.com/partners/learn/
@@ -12,9 +12,13 @@ This tutorial is part of a webinar on Hortonworks DataFlow.
 #### Goals 
 
 - Build Nifi flow to analyze Nifi's network traffic using tcpdump. Use Expression Language to extract out source/target IPs/ports
-- Build and use custom tcpdump processor to filter Nifi's source/target IPs/ports
+- Build and use custom tcpdump processor to filter Nifi's source/target IPs/ports on HDP sandbox
 
-
+- Note that: 
+  - Nifi can be installed independent of HDP
+  - The custom processor also can be built on any machine where Java and eclipse are installed
+  - Sandbox is being used for demo purposes, to have everything in one place
+  
 #### Pre-Requisites: Install Nifi on sandbox
 
 - The lab is designed for the HDP Sandbox. Download the HDP Sandbox [here](http://hortonworks.com/products/hortonworks-sandbox/#install), import into VMWare Fusion and start the VM
