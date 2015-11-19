@@ -267,9 +267,21 @@ chown nifi:hadoop /opt/nifi-1.0.0.0-7/lib/nifi-network-nar-1.0-SNAPSHOT.nar
  ![Image](../master/screenshots/nifi-tcpdump-customprocessor-flow.png?raw=true)
 
 - Run the flow. After a few seconds you should see all the counters increase
-  - TODO: note what each component is doing
 
-- You have successfully created flows to analyze network traffic using both expression languages and a custom processor
+- Overview of flow:
+  - ExecuteProcess: Runs `tcpdump -n -nn`
+  - SplitText: split output into lines
+  - GetTcpDumpAttributes: extract the src/dest sockets using the custom processor we built
+    - src.socket will store socket before the `>`: `(\d+\.\d+\.\d+\.\d+\.\d+)\s+>`
+    - dest.socket will store socket after the `<`: `>\s+(\d+\.\d+\.\d+\.\d+\.\d+)`
+  - RouteOnAttribute: filter by destination socket where port is 9090
+    - `web.server.dest` = `${dest.socket:endsWith(".9090")}`    
+  - Logattribute:  log attribute 
+
+- Open Provenance window and repeat previous steps to check details of what events were logged.
+
+
+- You have successfully created flows to analyze network traffic using both expression languages and also a basic custom processor
 
 
 ##### Further reading
